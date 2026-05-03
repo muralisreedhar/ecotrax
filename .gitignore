@@ -1,0 +1,41 @@
+# deps
+node_modules/
+.pnpm-store/
+
+# build
+.next/
+out/
+dist/
+build/
+
+# env
+.env
+.env.local
+.env.*.local
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# os / editors
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# test
+coverage/
+.vitest/
+
+# vercel
+.vercel/
+
+# supabase
+supabase/.temp/
+supabase/.branches/
+
+# misc
+*.tsbuildinfo
+next-env.d.ts
