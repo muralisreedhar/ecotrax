@@ -25,6 +25,9 @@ pnpm-debug.log*
 *.swp
 *.swo
 
+# claude code session state
+.claude/
+
 # test
 coverage/
 .vitest/
