@@ -1,4 +1,6 @@
-import 'dotenv/config'
+import { config } from 'dotenv'
+config({ path: '.env.local' })
+config()
 import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import postgres from 'postgres'
