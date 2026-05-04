@@ -8,6 +8,13 @@
       "when": 1777854915903,
       "tag": "0001_thankful_zombie",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1777855125958,
+      "tag": "0002_spicy_colleen_wing",
+      "breakpoints": true
     }
   ]
 }
