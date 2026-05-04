@@ -1,0 +1,12 @@
+import { requireUser } from '@/lib/auth/role'
+import { Header } from '@/components/layout/header'
+
+export default async function GenericLayout({ children }: { children: React.ReactNode }) {
+  await requireUser()
+  return (
+    <>
+      <Header />
+      <div className="mx-auto max-w-6xl px-4 py-6">{children}</div>
+    </>
+  )
+}
