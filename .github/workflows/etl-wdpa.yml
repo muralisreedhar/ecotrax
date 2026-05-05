@@ -1,0 +1,16 @@
+name: etl-wdpa
+
+on:
+  workflow_dispatch:
+    inputs:
+      shapefile_url:
+        description: WDPA polygons shapefile URL (must be reachable from CI)
+        required: true
+
+jobs:
+  run:
+    uses: ./.github/workflows/_etl-job.yml
+    with:
+      script: etl:wdpa
+      args: --shapefile=${{ inputs.shapefile_url }}
+    secrets: inherit

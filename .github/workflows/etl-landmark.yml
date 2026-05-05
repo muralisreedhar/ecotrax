@@ -1,0 +1,16 @@
+name: etl-landmark
+
+on:
+  workflow_dispatch:
+    inputs:
+      shapefile_url:
+        description: LandMark ILC shapefile URL
+        required: true
+
+jobs:
+  run:
+    uses: ./.github/workflows/_etl-job.yml
+    with:
+      script: etl:landmark
+      args: --shapefile=${{ inputs.shapefile_url }}
+    secrets: inherit

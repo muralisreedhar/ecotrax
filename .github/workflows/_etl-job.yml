@@ -1,0 +1,37 @@
+name: _etl-job
+
+on:
+  workflow_call:
+    inputs:
+      script:
+        description: pnpm script to run (e.g. etl:wdpa)
+        required: true
+        type: string
+      args:
+        description: extra args appended to the script
+        required: false
+        type: string
+        default: ''
+    secrets:
+      DATABASE_URL: { required: true }
+      NEXT_PUBLIC_SUPABASE_URL: { required: true }
+      SUPABASE_SECRET_KEY: { required: true }
+      GFW_API_KEY: { required: false }
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 9 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: 'pnpm' }
+      - run: pnpm install --frozen-lockfile
+      - name: Run ETL
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          GFW_API_KEY: ${{ secrets.GFW_API_KEY }}
+        run: pnpm run ${{ inputs.script }} ${{ inputs.args }}
