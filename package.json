@@ -15,7 +15,8 @@
     "db:studio": "drizzle-kit studio",
     "etl:gbif:species": "tsx scripts/etl/gbif-sync-species.ts",
     "etl:wdpa": "tsx scripts/etl/wdpa-import.ts",
-    "etl:landmark": "tsx scripts/etl/landmark-import.ts"
+    "etl:landmark": "tsx scripts/etl/landmark-import.ts",
+    "etl:gfw": "tsx scripts/etl/gfw-sync.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
