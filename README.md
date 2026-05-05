@@ -63,6 +63,32 @@ After signing up at `/signup`, run [`scripts/promote-admin.sql`](scripts/promote
 | `pnpm db:generate` | Drizzle Kit: generate migrations from schema |
 | `pnpm db:migrate` | Apply all `db/migrations/*.sql` in order |
 | `pnpm db:studio` | Drizzle Studio (DB browser) |
+| `pnpm run etl:gbif:species --gbifKey=<int>` | GBIF on-demand species sync |
+| `pnpm run etl:wdpa --shapefile=<path>` | WDPA protected-areas import |
+| `pnpm run etl:landmark --shapefile=<path>` | LandMark ILC import |
+| `pnpm run etl:gfw` | GFW alerts daily delta sync |
+
+## ETL (Plan 2)
+
+Layer 1 source-cache tables ingest external biodiversity data via two modes:
+
+- **On-demand**: GBIF species occurrences are fetched and cached when a practitioner picks a species. Triggered via `POST /api/species/<gbifKey>` (Plan 5 wires this into the project builder UI) or `pnpm run etl:gbif:species --gbifKey=<int>`.
+- **Scheduled**: bulk imports run via GitHub Actions (WDPA + LandMark on manual dispatch with a shapefile URL) and Vercel Cron (GFW alerts daily at 05:15 UTC).
+
+> **IUCN deferred:** the IUCN Red List API ToS forbids commercial use without a written agreement. Tables `src_iucn_assessments` and `src_iucn_ranges` exist in the schema but stay empty until a partnership lands; that integration is Plan 2.5.
+
+### Required env vars (in addition to Plan 1)
+
+```
+GFW_API_KEY=           # generate at globalforestwatch.org → My Account → API Keys
+CRON_SECRET=           # any random string; set the same value in Vercel project env vars
+```
+
+### Required GitHub Actions secrets
+
+`DATABASE_URL`, `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `GFW_API_KEY` (Settings → Secrets and variables → Actions).
+
+Job runs are tracked in `materialization_jobs`; per-source state in `source_refresh_log`. Both queryable via Supabase Studio.
 
 ## Deploying to Vercel
 
